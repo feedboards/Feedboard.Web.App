@@ -14,7 +14,12 @@ export const useLayout = () => {
 };
 
 export const LayoutProvider: React.FC<IContextProviderProps> = ({ children }) => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const [disableLayout, setDisableLayout] = useState<boolean>(false);
 
-    return <LayoutContext.Provider value={{ sidebarOpen, setSidebarOpen }}>{children}</LayoutContext.Provider>;
+    return (
+        <LayoutContext.Provider value={{ sidebarOpen, setSidebarOpen, setDisableLayout, disableLayout }}>
+            {children}
+        </LayoutContext.Provider>
+    );
 };

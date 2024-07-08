@@ -1,11 +1,35 @@
 import classNames from 'classnames';
-import { navigation, teams } from './data';
+import { menu as menuData, teams } from './data';
 import { Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import { useLayout } from '../contexts';
+import { useState } from 'react';
+import { TMenu } from '../types';
 
 export const Sidebar = () => {
+    const [menu, setMenu] = useState<TMenu[]>(menuData);
+
     const { sidebarOpen, setSidebarOpen } = useLayout();
+
+    const setActive = (element: TMenu) => {
+        setMenu((prev) => {
+            if (prev === undefined) {
+                return prev;
+            }
+
+            return prev.map((x: TMenu) => {
+                if (x.current === true) {
+                    x.current = false;
+                }
+
+                if (x.name === element.name) {
+                    x.current = true;
+                }
+
+                return x;
+            });
+        });
+    };
 
     return (
         <>
@@ -39,27 +63,27 @@ export const Sidebar = () => {
                                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                     <li>
                                         <ul role="list" className="-mx-2 space-y-1">
-                                            {navigation.map((item: any) => (
-                                                <li key={item.name}>
+                                            {menu.map((x: any) => (
+                                                <li key={x.name}>
                                                     <a
-                                                        href={item.href}
+                                                        href={x.href}
                                                         className={classNames(
                                                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                                             {
-                                                                ['bg-gray-50 text-indigo-600']: item.current,
+                                                                ['bg-gray-50 text-indigo-600']: x.current,
                                                                 ['text-gray-700 hover:bg-gray-50 hover:text-indigo-600']:
-                                                                    !item.current,
+                                                                    !x.current,
                                                             }
                                                         )}>
-                                                        <item.icon
+                                                        <x.icon
                                                             aria-hidden="true"
                                                             className={classNames('h-6 w-6 shrink-0', {
-                                                                ['text-indigo-600']: item.current,
+                                                                ['text-indigo-600']: x.current,
                                                                 ['text-gray-400 group-hover:text-indigo-600']:
-                                                                    !item.current,
+                                                                    !x.current,
                                                             })}
                                                         />
-                                                        {item.name}
+                                                        {x.name}
                                                     </a>
                                                 </li>
                                             ))}
@@ -68,30 +92,30 @@ export const Sidebar = () => {
                                     <li>
                                         <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                                         <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                            {teams.map((team: any) => (
-                                                <li key={team.name}>
+                                            {teams.map((x: any) => (
+                                                <li key={x.name}>
                                                     <a
-                                                        href={team.href}
+                                                        href={x.href}
                                                         className={classNames(
                                                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                                             {
-                                                                ['bg-gray-50 text-indigo-600']: team.current,
+                                                                ['bg-gray-50 text-indigo-600']: x.current,
                                                                 ['text-gray-700 hover:bg-gray-50 hover:text-indigo-600']:
-                                                                    !team.current,
+                                                                    !x.current,
                                                             }
                                                         )}>
                                                         <span
                                                             className={classNames(
                                                                 'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium',
                                                                 {
-                                                                    ['border-indigo-600 text-indigo-600']: team.current,
+                                                                    ['border-indigo-600 text-indigo-600']: x.current,
                                                                     ['border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600']:
-                                                                        !team.current,
+                                                                        !x.current,
                                                                 }
                                                             )}>
-                                                            {team.initial}
+                                                            {x.initial}
                                                         </span>
-                                                        <span className="truncate">{team.name}</span>
+                                                        <span className="truncate">{x.name}</span>
                                                     </a>
                                                 </li>
                                             ))}
@@ -128,26 +152,27 @@ export const Sidebar = () => {
                         <ul role="list" className="flex flex-1 flex-col gap-y-7">
                             <li>
                                 <ul role="list" className="-mx-2 space-y-1">
-                                    {navigation.map((item) => (
-                                        <li key={item.name}>
+                                    {menu.map((x) => (
+                                        <li key={x.name}>
                                             <a
-                                                href={item.href}
+                                                href={x.href}
                                                 className={classNames(
                                                     'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                                     {
-                                                        ['bg-gray-50 text-indigo-600']: item.current,
+                                                        ['bg-gray-50 text-indigo-600']: x.current,
                                                         ['text-gray-700 hover:bg-gray-50 hover:text-indigo-600']:
-                                                            !item.current,
+                                                            !x.current,
                                                     }
-                                                )}>
-                                                <item.icon
+                                                )}
+                                                onClick={() => setActive(x)}>
+                                                <x.icon
                                                     aria-hidden="true"
                                                     className={classNames('h-6 w-6 shrink-0', {
-                                                        ['text-indigo-600']: item.current,
-                                                        ['text-gray-400 group-hover:text-indigo-600']: !item.current,
+                                                        ['text-indigo-600']: x.current,
+                                                        ['text-gray-400 group-hover:text-indigo-600']: !x.current,
                                                     })}
                                                 />
-                                                {item.name}
+                                                {x.name}
                                             </a>
                                         </li>
                                     ))}
@@ -156,30 +181,30 @@ export const Sidebar = () => {
                             <li>
                                 <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                                 <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                    {teams.map((team) => (
-                                        <li key={team.name}>
+                                    {teams.map((x) => (
+                                        <li key={x.name}>
                                             <a
-                                                href={team.href}
+                                                href={x.href}
                                                 className={classNames(
                                                     'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                                     {
-                                                        ['bg-gray-50 text-indigo-600']: team.current,
+                                                        ['bg-gray-50 text-indigo-600']: x.current,
                                                         ['text-gray-700 hover:bg-gray-50 hover:text-indigo-600']:
-                                                            !team.current,
+                                                            !x.current,
                                                     }
                                                 )}>
                                                 <span
                                                     className={classNames(
                                                         'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium',
                                                         {
-                                                            ['border-indigo-600 text-indigo-600']: team.current,
+                                                            ['border-indigo-600 text-indigo-600']: x.current,
                                                             ['border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600']:
-                                                                !team.current,
+                                                                !x.current,
                                                         }
                                                     )}>
-                                                    {team.initial}
+                                                    {x.initial}
                                                 </span>
-                                                <span className="truncate">{team.name}</span>
+                                                <span className="truncate">{x.name}</span>
                                             </a>
                                         </li>
                                     ))}
