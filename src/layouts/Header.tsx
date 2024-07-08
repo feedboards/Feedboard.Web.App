@@ -4,7 +4,7 @@ import { userNavigation } from './data';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { useLayout } from '../contexts';
 
-export function Header() {
+export function Header(): JSX.Element {
     const { setSidebarOpen } = useLayout();
 
     return (

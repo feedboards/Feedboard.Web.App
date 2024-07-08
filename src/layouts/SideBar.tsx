@@ -6,7 +6,7 @@ import { useLayout } from '../contexts';
 import { useState } from 'react';
 import { TMenu } from '../types';
 
-export const Sidebar = () => {
+export const Sidebar = (): JSX.Element => {
     const [menu, setMenu] = useState<TMenu[]>(menuData);
 
     const { sidebarOpen, setSidebarOpen } = useLayout();
