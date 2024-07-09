@@ -5,3 +5,8 @@ export interface IButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTM
     to?: string;
     children: ReactNode;
 }
+
+export interface RequireQueryParamProps {
+    children: React.ReactNode;
+    paramName: string;
+}

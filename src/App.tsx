@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from './layouts';
-import './assets/scss/app.scss';
 import { Button } from './conponents';
 import { lazy, Suspense } from 'react';
 import { AccountLayout } from './layouts/AccountLayout';
+import './assets/scss/app.scss';
+import RequireQueryParam from './conponents/RequireQueryParam';
 
 const App = (): JSX.Element => {
     const Team = lazy(() => import('./pages/Team'));
@@ -16,20 +17,27 @@ const App = (): JSX.Element => {
             <Suspense fallback={<div>loading</div>}>
                 <Routes>
                     <Route path="/" element={<Layout />}>
-                        <Route index element={<Button to="account/singin">sing in</Button>} />
+                        <Route index element={<Button to="account/sing-in">sing in</Button>} />
 
                         <Route path="/dashboard" element={<>dashboard</>} />
                         <Route path="/projects" element={<>projects</>} />
                         <Route path="/calendar" element={<>calendar</>} />
                         <Route path="/documents" element={<>documents</>} />
                         <Route path="/reports" element={<>reports</>} />
-                        <Route path="/team" element={<Team />} />
+                        <Route
+                            path="/team"
+                            element={
+                                <RequireQueryParam paramName="id">
+                                    <Team />
+                                </RequireQueryParam>
+                            }
+                        />
 
                         <Route path="*" element={<Error404 />} />
                     </Route>
                     <Route path="/account" element={<AccountLayout />}>
                         <Route index element={<Error404 />} />
-                        <Route path="/account/singin" element={<SingIn />} />
+                        <Route path="/account/sing-in" element={<SingIn />} />
                         <Route path="*" element={<Error404 />} />
                     </Route>
                 </Routes>
