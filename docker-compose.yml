@@ -4,7 +4,7 @@ services:
   feedboard-web:
     build:
       context: .
-      dockerfile: ./infrastructure/Dockerfile.web
+      dockerfile: ./infrastructure/Dockerfile
     container_name: feedboard-web
     ports:
       - "80:80"
