@@ -15,7 +15,7 @@ jobs:
               run: docker login --username ${{ secrets.GITHUBLOGIN }} --password ${{ secrets.DOCKERTOKEN }} ghcr.io
 
             - name: Build image
-              run: docker build . --tag ghcr.io/feedboards/feedboard-web:latest -f ./Dockerfile
+              run: docker build . --tag ghcr.io/feedboards/feedboard-web:latest -f ./infrastructure/Dockerfile
 
             - name: push
               run: docker push ghcr.io/feedboards/feedboard-web:latest
