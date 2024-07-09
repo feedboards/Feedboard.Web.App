@@ -3,17 +3,32 @@ import { menu as menuData, teams as teamsData } from './data';
 import { Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import { useLayout } from '../contexts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TMenu, TTeam } from '../types';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export const Sidebar = (): JSX.Element => {
     const [menu, setMenu] = useState<TMenu[]>(menuData);
-    const [teams] = useState<TTeam[]>(teamsData);
+    const [teams, setTeam] = useState<TTeam[]>(teamsData);
 
     const { sidebarOpen, setSidebarOpen } = useLayout();
 
-    const setActive = (element: TMenu) => {
-        setMenu((prev) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const currentPath = location.pathname;
+
+    const setMenuActive = (element: TMenu, event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+
+        setTeam((team: TTeam[]) =>
+            team.map((item: TTeam) => ({
+                ...item,
+                current: false,
+            }))
+        );
+
+        setMenu((prev: TMenu[]) => {
             if (prev === undefined) {
                 return prev;
             }
@@ -30,7 +45,76 @@ export const Sidebar = (): JSX.Element => {
                 return x;
             });
         });
+
+        navigate(element.href);
     };
+
+    const setTeamActive = (element: TTeam, event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+
+        setMenu((menu: TMenu[]) =>
+            menu.map((item: TMenu) => ({
+                ...item,
+                current: false,
+            }))
+        );
+
+        setTeam((prev: TTeam[]) => {
+            if (prev === undefined) {
+                return prev;
+            }
+
+            return prev.map((x: TTeam) => {
+                if (x.current === true) {
+                    x.current = false;
+                }
+
+                if (x.name === element.name) {
+                    x.current = true;
+                }
+
+                return x;
+            });
+        });
+
+        navigate(element.href);
+    };
+
+    useEffect(() => {
+        if (currentPath.slice(1).includes('team')) {
+            setMenu((menu: TMenu[]) =>
+                menu.map((item: TMenu) => ({
+                    ...item,
+                    current: false,
+                }))
+            );
+
+            setTeam((team: TTeam[]) =>
+                team.map((item: TTeam) => ({
+                    ...item,
+                    current: item.href === currentPath.slice(1),
+                }))
+            );
+        } else {
+            if (currentPath === '/') {
+                navigate('dashboard');
+            } else {
+                setTeam((team: TTeam[]) =>
+                    team.map((item: TTeam) => ({
+                        ...item,
+                        current: false,
+                    }))
+                );
+
+                setMenu((menu: TMenu[]) =>
+                    menu.map((item: TMenu) => ({
+                        ...item,
+                        current: item.href === currentPath.slice(1),
+                    }))
+                );
+            }
+        }
+    }, [currentPath, navigate]);
 
     return (
         <>
@@ -165,7 +249,7 @@ export const Sidebar = (): JSX.Element => {
                                                             !x.current,
                                                     }
                                                 )}
-                                                onClick={() => setActive(x)}>
+                                                onClick={(event) => setMenuActive(x, event)}>
                                                 <x.icon
                                                     aria-hidden="true"
                                                     className={classNames('h-6 w-6 shrink-0', {
@@ -186,6 +270,9 @@ export const Sidebar = (): JSX.Element => {
                                         <li key={x.id}>
                                             <a
                                                 href={x.href}
+                                                onClick={(event) => {
+                                                    setTeamActive(x, event);
+                                                }}
                                                 className={classNames(
                                                     'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                                     {
