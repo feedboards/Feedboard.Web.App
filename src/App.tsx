@@ -15,9 +15,8 @@ const App = (): JSX.Element => {
         <Router>
             <Suspense fallback={<div>loading</div>}>
                 <Routes>
-                    <Route path="/*" element={<Layout />}>
+                    <Route path="/" element={<Layout />}>
                         <Route index element={<Button to="account/singin">sing in</Button>} />
-                        <Route path="*" element={<Error404 />} />
 
                         <Route path="/dashboard" element={<>dashboard</>} />
                         <Route path="/projects" element={<>projects</>} />
@@ -25,6 +24,8 @@ const App = (): JSX.Element => {
                         <Route path="/documents" element={<>documents</>} />
                         <Route path="/reports" element={<>reports</>} />
                         <Route path="/team" element={<Team />} />
+
+                        <Route path="*" element={<Error404 />} />
                     </Route>
                     <Route path="/account" element={<AccountLayout />}>
                         <Route index element={<Error404 />} />
