@@ -1,0 +1,39 @@
+name: Create prod docker image
+
+on:
+    push:
+        branches: ['main']
+    pull_request:
+        branches: ['main']
+
+jobs:
+    build-and-push-image:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Docker login
+              run: docker login --username ${{ secrets.GITHUBLOGIN }} --password ${{ secrets.DOCKERTOKEN }} ghcr.io
+
+            - name: Build image
+              run: docker build . --tag ghcr.io/feedboards/feedboard-web:latest -f ./Dockerfile
+
+            - name: push
+              run: docker push ghcr.io/feedboards/feedboard-web:latest
+
+    # deploy-to-ec2:
+    #     needs: build-and-push-image
+    #     if: success()
+    #     runs-on: ubuntu-latest
+
+    #     steps:
+    #         - name: Deploy to EC2
+    #           uses: appleboy/ssh-action@master
+    #           with:
+    #               host: ${{ secrets.EC2_HOST }}
+    #               username: ${{ secrets.EC2_USERNAME }}
+    #               key: ${{ secrets.EC2_SSH_KEY }}
+    #               script: |
+    #                   docker pull ghcr.io/feedboards/feedboard-web:latest
+    #                   docker stop feedboard-web || true
+    #                   docker rm feedboard-web || true
+    #                   docker run -d --name feedboard-web -p 80:80 ghcr.io/feedboards/feedboard-web:latest
