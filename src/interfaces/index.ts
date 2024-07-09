@@ -1,1 +1,2 @@
-export * from './IContext';
+export * from './contexts';
+export * from './conponents';

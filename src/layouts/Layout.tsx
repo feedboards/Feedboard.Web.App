@@ -1,21 +1,24 @@
-import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Sidebar } from './SideBar';
 import { useLayout } from '../contexts';
+import { Outlet } from 'react-router-dom';
+import { ErrorLayout } from './ErrorLayout';
 
-export const Layout = ({ children }: { children: ReactNode }): JSX.Element => {
-    const { disableLayout } = useLayout();
+export const Layout = (): JSX.Element => {
+    const { is404Error } = useLayout();
 
     return (
         <>
-            {disableLayout ? (
-                children
+            {is404Error ? (
+                <ErrorLayout />
             ) : (
                 <>
                     <Sidebar />
                     <div className="lg:pl-72">
                         <Header />
-                        <main className="p-5">{children}</main>
+                        <main className="p-5">
+                            <Outlet />
+                        </main>
                     </div>
                 </>
             )}
