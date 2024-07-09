@@ -6,7 +6,7 @@ import {
     HomeIcon,
     UsersIcon,
 } from '@heroicons/react/24/outline';
-import { TMenu } from '../types';
+import { TMenu, TTeam } from '../types';
 
 export const userNavigation = [
     { name: 'Your profile', href: '#' },
@@ -22,8 +22,9 @@ export const menu: TMenu[] = [
     { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
 ];
 
-export const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
+export const teams: TTeam[] = [
+    { id: 1, name: 'Heroicons', href: '#', current: false },
+    { id: 2, name: 'Tailwind Labs', href: '#', current: false },
+    { id: 3, name: 'Workcation', href: '#', current: false },
+    { id: 4, name: 'Torkc', href: '#', current: false },
 ];

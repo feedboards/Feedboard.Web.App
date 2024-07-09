@@ -1,13 +1,14 @@
 import classNames from 'classnames';
-import { menu as menuData, teams } from './data';
+import { menu as menuData, teams as teamsData } from './data';
 import { Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import { useLayout } from '../contexts';
 import { useState } from 'react';
-import { TMenu } from '../types';
+import { TMenu, TTeam } from '../types';
 
 export const Sidebar = (): JSX.Element => {
     const [menu, setMenu] = useState<TMenu[]>(menuData);
+    const [teams] = useState<TTeam[]>(teamsData);
 
     const { sidebarOpen, setSidebarOpen } = useLayout();
 
@@ -92,7 +93,7 @@ export const Sidebar = (): JSX.Element => {
                                     <li>
                                         <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                                         <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                            {teams.map((x: any) => (
+                                            {teams?.map((x: any) => (
                                                 <li key={x.name}>
                                                     <a
                                                         href={x.href}
@@ -182,7 +183,7 @@ export const Sidebar = (): JSX.Element => {
                                 <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                                 <ul role="list" className="-mx-2 mt-2 space-y-1">
                                     {teams.map((x) => (
-                                        <li key={x.name}>
+                                        <li key={x.id}>
                                             <a
                                                 href={x.href}
                                                 className={classNames(
@@ -202,7 +203,7 @@ export const Sidebar = (): JSX.Element => {
                                                                 !x.current,
                                                         }
                                                     )}>
-                                                    {x.initial}
+                                                    {x.name.charAt(0).toUpperCase()}
                                                 </span>
                                                 <span className="truncate">{x.name}</span>
                                             </a>
