@@ -3,7 +3,7 @@ import { IContextProviderProps, ILayoutContext } from '../interfaces';
 
 const LayoutContext = createContext<ILayoutContext | undefined>(undefined);
 
-export const useLayout = () => {
+export const useLayout = (): ILayoutContext => {
     const context = useContext(LayoutContext);
 
     if (!context) {
@@ -15,10 +15,10 @@ export const useLayout = () => {
 
 export const LayoutProvider: React.FC<IContextProviderProps> = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const [disableLayout, setDisableLayout] = useState<boolean>(false);
+    const [is404Error, setIs404Error] = useState<boolean>(false);
 
     return (
-        <LayoutContext.Provider value={{ sidebarOpen, setSidebarOpen, setDisableLayout, disableLayout }}>
+        <LayoutContext.Provider value={{ sidebarOpen, setSidebarOpen, setIs404Error, is404Error }}>
             {children}
         </LayoutContext.Provider>
     );
