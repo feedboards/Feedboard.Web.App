@@ -2,11 +2,10 @@ import classNames from 'classnames';
 import { menu as menuData, teams as teamsData } from './data';
 import { Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
-import { useLayout } from '../contexts';
+import { useLayout } from '../../contexts';
 import { useEffect, useState } from 'react';
-import { TMenu, TTeam } from '../types';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { TMenu, TTeam } from '../../types';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const Sidebar = (): JSX.Element => {
     const [menu, setMenu] = useState<TMenu[]>(menuData);

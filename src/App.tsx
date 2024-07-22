@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout } from './layouts';
+import { Layout, AccountLayout } from './layouts';
 import { Button } from './conponents';
 import { lazy, Suspense } from 'react';
-import { AccountLayout } from './layouts/AccountLayout';
 import './assets/scss/app.scss';
 
 const App = (): JSX.Element => {

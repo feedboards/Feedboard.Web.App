@@ -1,5 +1,4 @@
-import { Header } from './Header';
-import { Sidebar } from './SideBar';
+import { Header, Sidebar } from './components';
 import { useLayout } from '../contexts';
 import { Outlet } from 'react-router-dom';
 import { ErrorLayout } from './ErrorLayout';

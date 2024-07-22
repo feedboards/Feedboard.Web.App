@@ -2,7 +2,7 @@ import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { userNavigation } from './data';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { useLayout } from '../contexts';
+import { useLayout } from '../../contexts';
 
 export function Header(): JSX.Element {
     const { setSidebarOpen } = useLayout();
