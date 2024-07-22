@@ -4,7 +4,6 @@ import { Button } from './conponents';
 import { lazy, Suspense } from 'react';
 import { AccountLayout } from './layouts/AccountLayout';
 import './assets/scss/app.scss';
-import RequireQueryParam from './conponents/RequireQueryParam';
 
 const App = (): JSX.Element => {
     const Team = lazy(() => import('./pages/Team'));
@@ -24,14 +23,7 @@ const App = (): JSX.Element => {
                         <Route path="/calendar" element={<>calendar</>} />
                         <Route path="/documents" element={<>documents</>} />
                         <Route path="/reports" element={<>reports</>} />
-                        <Route
-                            path="/team"
-                            element={
-                                <RequireQueryParam paramName="id">
-                                    <Team />
-                                </RequireQueryParam>
-                            }
-                        />
+                        <Route path="/team" element={<Team />} />
 
                         <Route path="*" element={<Error404 />} />
                     </Route>

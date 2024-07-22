@@ -1,8 +1,7 @@
-import { useLocation } from 'react-router-dom';
+import { useParams } from '../hooks';
 
 const Team = (): JSX.Element => {
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
+    const { queryParams } = useParams('id');
 
     return <div>team id - {queryParams.get('id')}</div>;
 };
